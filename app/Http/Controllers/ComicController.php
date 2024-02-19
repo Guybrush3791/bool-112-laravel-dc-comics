@@ -72,7 +72,9 @@ class ComicController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comic = Comic :: find($id);
+
+        return view('pages.comic.edit', compact('comic'));
     }
 
     /**
@@ -84,7 +86,16 @@ class ComicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request -> all();
+        $comic = Comic :: find($id);
+
+        $comic -> title = $data['title'];
+        $comic -> description = $data['description'];
+        $comic -> price = $data['price'];
+
+        $comic -> save();
+
+        return redirect() -> route('comic.show', $comic -> id);
     }
 
     /**
@@ -95,6 +106,9 @@ class ComicController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comic = Comic :: find($id);
+        $comic -> delete();
+
+        return redirect() -> route('comic.index');
     }
 }
