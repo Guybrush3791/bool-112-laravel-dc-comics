@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Comic;
 
+use App\Http\Requests\ComicFormRequest;
+
 class ComicController extends Controller
 {
     /**
@@ -36,7 +38,7 @@ class ComicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComicFormRequest $request)
     {
         $data = $request -> all();
 
@@ -84,9 +86,15 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ComicFormRequest $request, $id)
     {
         $data = $request -> all();
+        // $data = $request -> validate([
+        //     'title' => 'required|string|min:3|max:255',
+        //     'description' => 'nullable|string|max:255',
+        //     'price' => 'required|decimal:0,2'
+        // ]);
+
         $comic = Comic :: find($id);
 
         $comic -> title = $data['title'];
